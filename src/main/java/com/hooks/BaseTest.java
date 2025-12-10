@@ -14,7 +14,7 @@ public class BaseTest {
 
     @Before
     public void setUp() {
-        String browser = System.getProperty("SELENIUM_GRID_BROWSER", "Chrome").toLowerCase();
+        String browser = System.getProperty("SELENIUM_GRID_BROWSER", "firefox").toLowerCase();
 
         if (driver == null) {
             switch (browser) {
