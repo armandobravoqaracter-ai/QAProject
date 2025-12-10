@@ -2,7 +2,6 @@
 # encoding: utf-8
 @VALIDAR_RESPUESTA_CONEXION_HISDWH
 Requisito: Como usuario necesito validar que la respuesta de la url consultada devuelva un código 200 (OK), con el fin de confirmar que la solicitud fue procesada correctamente por el aplicativo
-
 Esquema del escenario:
 * El usuario navega a la pagina web <url>
 * El usuario valida que la pagina web actual sea <urlActual>

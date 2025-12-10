@@ -1,5 +1,6 @@
 package com.pages;
 
+import lombok.Value;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -7,8 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.xml.xpath.XPath;
 import java.time.Duration;
-
 
 public class webPage {
 
@@ -122,7 +123,7 @@ public class webPage {
             if (url_actual.equals(url)) {
                 System.out.println("URL Valida"+ url_actual);
             } else {
-                System.out.println("No es la misma URL: {} que {}"+ url_actual+ url);
+                System.out.println("No es la misma URL: que "+ url_actual + url);
             }
         } catch (Exception e) {
             System.out.println("No se puede extraer la URL:"+ url+ e);
@@ -152,6 +153,50 @@ public class webPage {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Restablecer el estado de interrupción
             }
+        }
+    }
+    public void clearsendKeysToElemnt(By locator, String text) {
+
+        String browser = System.getProperty("browser", "chrome");
+
+        WebElement element = findElementSafely(locator);
+        try {
+            if (browser.equalsIgnoreCase("firefox")) {
+                System.out.println("Browser: firefox");
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+                element.sendKeys(text);
+                element.sendKeys(Keys.TAB);
+            } else {
+                System.out.println("Browser: NO firefox");
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), text, Keys.TAB);
+            }
+        } catch (Exception e) {
+            System.out.println("No se puede escribir en: {}" + element + e);
+            throw e;
+        }
+    }
+    public String GetTextWebElement(By locator) {
+        WebElement element = findElementSafely(locator);
+        try {
+            String texto_extraido = element.getText().trim();
+            System.out.println("Texto extraido: {}"+texto_extraido);
+            return texto_extraido;
+        } catch (Exception e) {
+            System.out.println("No se puede extraer el texto"+ e);
+            return null;
+        }
+    }
+    public void validarTexto(By locator, String textoavalidar) {
+        String texto = GetTextWebElement(locator);
+        try {
+            if (texto.trim().equals(textoavalidar.trim())) {
+                System.out.println("Texto es igual: "+ texto);
+            } else {
+                System.out.println("No se igual el texto: "+ texto);
+            }
+        } catch (Exception e) {
+            System.out.println("No se puede extraer el texto"+ texto);
+            //throw e;
         }
     }
 }

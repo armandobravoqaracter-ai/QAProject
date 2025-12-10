@@ -48,4 +48,14 @@ public class WebSteps {
     public void elUsuarioNavegaALaPaginaWeb(String url) {
         WebPage.abrirUrl(url);
     }
+
+    @Dado("^El usuario escribe texto limpiando el cambo (.+?) (.+?)")
+    public void elUsuarioEscribeTextoLimpiandoElCambo(String localizador, String texto) {
+        WebPage.clearsendKeysToElemnt(WebPage.initBy(localizador), texto);
+    }
+
+    @Dado("^El usuario valida el texto en el campo (.+?) sea igual a (.+?)")
+    public void elUsuarioValidaElTextoEnElCampoSeaIgualA(String localizador, String texto) {
+        WebPage.validarTexto(WebPage.initBy(localizador), texto);
+    }
 }
