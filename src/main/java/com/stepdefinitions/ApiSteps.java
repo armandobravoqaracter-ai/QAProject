@@ -1,48 +1,33 @@
 package com.stepdefinitions;
 
-import com.utils.ApiClient;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.testng.Assert;
+import com.pages.RestPage;
+import io.cucumber.java.es.*;
+import io.restassured.response.Response;
+
+import java.util.Map;
 
 public class ApiSteps {
 
-    private final ApiClient apiClient;
-    private String responseBody;
+    RestPage rest = new RestPage();
+    Response respuesta;
 
-    public ApiSteps() {
-        this.apiClient = new ApiClient();
+    @Dado("^El usuario agrega los headers a la petición:")
+    public void que_agrego_los_headers(Map<String,String> headers) {
+        rest.setHeaders(headers);
     }
 
-    @Given("el usuario realiza una solicitud GET al servicio de departamentos")
-    public void elUsuarioRealizaUnaSolicitudGETAlServicioDeDepartamentos() {
-        try {
-            responseBody = apiClient.getDepartments();
-            Assert.assertNotNull(responseBody, "La respuesta del servicio no es nula.");
-        } catch (Exception e) {
-            Assert.fail("Error al realizar la solicitud: " + e.getMessage());
-        }
+    @Cuando("^El usuario realiza una petición GET a la url (.+?)")
+    public void realizo_peticion_get(String url) {
+        respuesta = rest.get(url);
     }
 
-    @Then("la respuesta debe contener una lista de departamentos")
-    public void laRespuestaDebeContenerUnaListaDeDepartamentos() {
-        try {
-            JSONObject jsonResponse = new JSONObject(responseBody);
+    @Entonces("^El usuario valida el código de respuesta debe ser (.+?)")
+    public void validar_codigo(int codigo) {
+        rest.validarStatusCode(respuesta, codigo);
+    }
 
-            JSONArray departments = jsonResponse.getJSONArray("departments");
-            Assert.assertNotNull(departments, "La lista de departamentos es nula.");
-            Assert.assertFalse(departments.isEmpty(), "No se encontraron departamentos en la respuesta.");
-
-            for (int i = 0; i < departments.length(); i++) {
-                JSONObject department = departments.getJSONObject(i);
-                Assert.assertTrue(department.has("name"), "El departamento no tiene un campo 'name'.");
-                Assert.assertFalse(department.getString("name").isEmpty(), "El campo 'name' está vacío.");
-            }
-
-        } catch (Exception e) {
-            Assert.fail("Error al procesar la respuesta: " + e.getMessage());
-        }
+    @Entonces("^El usuario valida el campo (.+?) debe ser (.+?)")
+    public void validar_campo(String campo, String valor) {
+        rest.validarCampo(respuesta, campo, valor);
     }
 }
