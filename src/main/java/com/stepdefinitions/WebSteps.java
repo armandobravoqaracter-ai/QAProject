@@ -11,6 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import java.io.IOException;
+
 public class WebSteps {
 
     private final WebDriver driver;
@@ -64,5 +66,22 @@ public class WebSteps {
     @Dado("^El usuario valida que el texto no este vacio (.+?)")
     public void elUsuarioValidaQueElTextoNoEsteVacio(String locator) {
         WebPage.validarTextoVacio(WebPage.initBy(locator));
+    }
+
+    @Dado("^El usuario selecciona la opcion (.+?) del combo (.+?)")
+    public void elUsuarioSeleccionaLaOpcionDelCombo(String opcion, String locator) {
+        System.out.println("=====> elUsuarioSeleccionaLaOpcionDelCombo");
+        System.out.println("=====> opcion: " + opcion );
+        WebPage.selectTextWebElement(WebPage.initBy(locator), opcion);
+    }
+
+    @Dado("^El usuario extrae el texto del campo (.+?) y lo almacena en un archivo (.+?)")
+    public void elUsuarioExtraeElTextoDelCampoYLoAlmacenaEnUnArchivo(String locator, String ruta) throws IOException {
+        WebPage.extractValueOfElementAndSaveInFile(WebPage.initBy(locator), ruta);
+    }
+
+    @Dado("^El usuario extrae el valor del elemento y lo guarda en un archivo (.+?) (.+?)")
+    public void elUsuarioExtraeElValorDelElementoYLoGuardaEnUnArchivo(String locator, String ruta) throws IOException {
+        WebPage.selectTextWebElement(WebPage.initBy(locator),WebPage.ExtraerValorDelArchivo(ruta));
     }
 }

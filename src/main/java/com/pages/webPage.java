@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.xml.xpath.XPath;
+import java.io.*;
 import java.time.Duration;
 
 public class webPage {
@@ -211,6 +212,75 @@ public class webPage {
             }
         } catch (TimeoutException e) {
             throw e;
+        }
+    }
+    public Select select(WebElement element) {
+        return select = new Select(element);
+    }
+    public void selectTextWebElement(By locator, String text) {
+
+        WebElement element = findElementSafely(locator);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            select(element).selectByVisibleText(text);
+        } catch (Exception e) {
+            System.out.println("no se puede seleccionar el texto: en el elemento"+ text+ e);
+            System.out.println("No se pudo seleccionar: , en el combo: "+ text+ locator);
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
+    }
+    public String ExtraerValorDelArchivo(String ruta) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(ruta));
+        String linea =  br.readLine();
+        return linea;
+    }
+    public void extractValueOfElementAndSaveInFile(By locator, String ruta) throws IOException {
+
+        WebElement elemento = driver.findElement(locator);
+
+        String valorSeleccionado = "";
+
+        // 1) Intentar obtener el value (inputs)
+        String value = elemento.getAttribute("value");
+        if (value != null && !value.trim().isEmpty()) {
+            valorSeleccionado = value.trim();
+        }
+
+        // 2) innerText (cuando el texto no es visible pero existe)
+        else {
+            String innerText = elemento.getAttribute("innerText");
+            if (innerText != null && !innerText.trim().isEmpty()) {
+                valorSeleccionado = innerText.trim();
+            }
+            else {
+
+                // 3) textContent (texto interno crudo)
+                String textContent = elemento.getAttribute("textContent");
+                if (textContent != null && !textContent.trim().isEmpty()) {
+                    valorSeleccionado = textContent.trim();
+                }
+
+                // 4) getText() (texto visible)
+                else {
+                    String text = elemento.getText();
+                    if (text != null) {
+                        valorSeleccionado = text.trim();
+                    }
+                }
+            }
+        }
+
+        // Nunca será null — si todo falló, será "".
+        System.out.println("Valor extraído: [" + valorSeleccionado + "]");
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ruta))) {
+            writer.write(valorSeleccionado);
         }
     }
 }
