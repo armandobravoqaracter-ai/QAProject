@@ -2,10 +2,12 @@ package com.stepdefinitions;
 
 import com.hooks.BaseTest;
 import com.pages.webPage;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.es.Dado;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -57,5 +59,10 @@ public class WebSteps {
     @Dado("^El usuario valida el texto en el campo (.+?) sea igual a (.+?)")
     public void elUsuarioValidaElTextoEnElCampoSeaIgualA(String localizador, String texto) {
         WebPage.validarTexto(WebPage.initBy(localizador), texto);
+    }
+
+    @Dado("^El usuario valida que el texto no este vacio (.+?)")
+    public void elUsuarioValidaQueElTextoNoEsteVacio(String locator) {
+        WebPage.validarTextoVacio(WebPage.initBy(locator));
     }
 }

@@ -157,7 +157,7 @@ public class webPage {
     }
     public void clearsendKeysToElemnt(By locator, String text) {
 
-        String browser = System.getProperty("browser", "chrome");
+        String browser = System.getProperty("browser", "firefox");
 
         WebElement element = findElementSafely(locator);
         try {
@@ -197,6 +197,20 @@ public class webPage {
         } catch (Exception e) {
             System.out.println("No se puede extraer el texto"+ texto);
             //throw e;
+        }
+    }
+    public void validarTextoVacio(By locator) {
+        WebElement element = findElementSafely(locator);
+        try {
+            if (element.getAttribute("value").isEmpty()) {
+                System.out.println("El elemento con Atributo value esta Vacio");
+            } else if (element.getText().isEmpty() || element.getText().isBlank()) {
+                System.out.println("El Texti del elemento es nulo o vacio");
+            } else {
+                System.out.println("El no esta vacio y contiene texto");
+            }
+        } catch (TimeoutException e) {
+            throw e;
         }
     }
 }
