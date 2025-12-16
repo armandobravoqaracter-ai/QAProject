@@ -10,7 +10,7 @@ Requisito: Como usuario necesito validar que la respuesta de la url consultada d
     * El usuario da click en el boton <btnAccept>
     * El usuario realiza un scroll sin click en el elemento <btnConocenos>
     * El usuario da click en el boton <btnConocenos>
-        *
+
     Ejemplos:
         | url                              | urlActual                        | btnConocenos                      | time  | btnAccept                                   |
         | https://www.qaracter.com/en/home | https://www.qaracter.com/en/home | /html/body/div[3]/div[1]/div[1]/a | 10000 | /html/body/div[7]/div[1]/div[1]/div[2]/a[3] |

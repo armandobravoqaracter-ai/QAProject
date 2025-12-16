@@ -10,4 +10,4 @@ Requisito: Como usuario necesito validar datos almacenados en PostgreSQL
 
     Ejemplos:
       | host      | port | database | user    | password | query                                    | columna | valorEsperado |
-      | localhost | 5432 | qa_db    | qa_user | qa_pass  | SELECT nombre FROM usuarios WHERE id = 1 | nombre  | Armando       |
+      | localhost | 5432 | qa_db    | qa_user | qa_pass  | SELECT nombre FROM usuarios WHERE id = 1 | nombre  | Armand        |

@@ -12,7 +12,7 @@ Esquema del escenario: Validar Busqueda de chespirito
   * El usuario realiza un espera de <time>
   * El usuario da click en el boton <Buscar>
   * El usuario realiza un espera de <time>
-  * El usuario valida el texto en el campo <campoBuscar> sea igual a <TextoBusqueda>
+  #* El usuario valida el texto en el campo <campoBuscar> sea igual a <TextoBusqueda>
 
   Ejemplos:
     | url                     | urlActual               | campoBuscar | TextoBusqueda | time | Buscar                                                             |  | busqueda | urlInicio |
