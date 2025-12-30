@@ -41,8 +41,10 @@ public class LoginSteps {
 
     @Then("el usuario debería ver el mensaje de error {string}")
     public void elUsuarioDeberiaVerElMensajeDeError(String expectedErrorMessage) {
-        boolean isErrorDisplayed = loginPage.isErrorDisplayed(expectedErrorMessage);
-        Assert.assertTrue(isErrorDisplayed, "El mensaje de error no se muestra correctamente.");
+        Assert.assertTrue(loginPage.isErrorDisplayed(), "El mensaje de error no se muestra.");
+        String actualError = loginPage.getErrorMessage();
+        Assert.assertTrue(actualError.contains(expectedErrorMessage), 
+            "El mensaje esperado no coincide. Esperado: " + expectedErrorMessage + ", Actual: " + actualError);
     }
 
     @Then("el usuario debería ser redirigido a la página de inicio")

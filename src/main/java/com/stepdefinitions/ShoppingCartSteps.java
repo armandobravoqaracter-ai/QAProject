@@ -27,7 +27,9 @@ public class ShoppingCartSteps {
         loginPage.enterUsername("standard_user");
         loginPage.enterPassword("secret_sauce");
         loginPage.clickLoginButton();
-        Assert.assertTrue(loginPage.isRedirectedToHomePage(), "El usuario no pudo iniciar sesión correctamente.");
+        // Validar que estamos en la página de inventario
+        String expectedUrl = "https://www.saucedemo.com/inventory.html";
+        Assert.assertEquals(driver.getCurrentUrl(), expectedUrl, "El usuario no pudo iniciar sesión correctamente.");
     }
 
     @Given("el usuario ha agregado el producto Sauce Labs Backpack al carrito")
