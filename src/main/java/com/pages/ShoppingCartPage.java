@@ -1,29 +1,38 @@
 package com.pages;
 
+import com.components.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class ShoppingCartPage {
-
-    private WebDriver driver;
+/**
+ * Page Object para la página de Shopping Cart.
+ */
+public class ShoppingCartPage extends BasePage {
 
     private final By addSauceLabsBackpackButton = By.id("add-to-cart-sauce-labs-backpack");
     private final By removeSauceLabsBackpackButton = By.id("remove-sauce-labs-backpack");
     private final By addSauceLabsBikeLightButton = By.id("add-to-cart-sauce-labs-bike-light");
 
-    private final By cartIcon = By.id("shopping_cart_container");
     private final By itemPriceLocator = By.className("inventory_item_price");
     private final By cartTotalLocator = By.className("summary_total_label");
+    
+    // Componente reutilizable del header
+    private final HeaderComponent header;
 
     public ShoppingCartPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
+        this.header = new HeaderComponent(driver);
+    }
+    
+    @Override
+    public boolean isLoaded() {
+        // ShoppingCartPage puede tener diferentes URLs (/cart.html, /checkout-step-one.html, etc.)
+        return header.isCartVisible();
     }
 
     public void addSauceLabsBackpack() {
@@ -40,7 +49,7 @@ public class ShoppingCartPage {
 
     // Métodos adicionales
     public void clickCartIcon() {
-        driver.findElement(cartIcon).click();
+        header.goToCart();
     }
 
     public boolean areChargesAccurate() {
@@ -99,9 +108,7 @@ public class ShoppingCartPage {
     }
 
     public int getCartItemCount() {
-        clickCartIcon();
-        List<WebElement> cartItems = driver.findElements(By.className("cart_item"));
-        return cartItems.size();
+        return header.getCartItemCount();
     }
 
     public boolean areProductPricesCorrect() {

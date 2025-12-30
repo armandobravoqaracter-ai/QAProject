@@ -1,13 +1,13 @@
 package com.pages;
 
+import com.components.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 /**
- * Page Object para la página de Inventario (Productos) de Saucedemo.
- * Modela acciones semánticas del usuario en la página de productos.
+ * Page Object para la página de Inventario de Saucedemo.
  */
 public class InventoryPage extends BasePage {
     
@@ -15,11 +15,10 @@ public class InventoryPage extends BasePage {
     
     private final By inventoryContainer = By.id("inventory_container");
     private final By pageTitle = By.className("title");
-    private final By shoppingCartBadge = By.className("shopping_cart_badge");
-    private final By shoppingCartLink = By.id("shopping_cart_container");
-    private final By menuButton = By.id("react-burger-menu-btn");
-    private final By logoutLink = By.id("logout_sidebar_link");
     private final By inventoryItems = By.className("inventory_item");
+    
+    // Componente reutilizable del header
+    private final HeaderComponent header;
     
     // Localizadores dinámicos
     private By getAddToCartButton(String productName) {
@@ -32,6 +31,7 @@ public class InventoryPage extends BasePage {
     
     public InventoryPage(WebDriver driver) {
         super(driver);
+        this.header = new HeaderComponent(driver);
     }
     
     @Override
@@ -62,24 +62,28 @@ public class InventoryPage extends BasePage {
     
     public void waitForCartCount(int expectedCount) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(driver -> getCartItemCount() == expectedCount);
+        wait.until(driver -> header.getCartItemCount() == expectedCount);
     }
     
     public void removeProductFromCart(String productName) {
         clickElement(getRemoveButton(productName));
     }
     
+    // Delegación al HeaderComponent
     public int getCartItemCount() {
-        try {
-            String badgeText = getElementText(shoppingCartBadge);
-            return Integer.parseInt(badgeText);
-        } catch (Exception e) {
-            return 0;
-        }
+        return header.getCartItemCount();
     }
 
     public void goToCart() {
-        clickElement(shoppingCartLink);
+        header.goToCart();
+    }
+    
+    public void logout() {
+        header.logout();
+    }
+    
+    public boolean isMenuButtonVisible() {
+        return header.isMenuButtonVisible();
     }
     
     public boolean isProductAvailableToAdd(String productName) {
@@ -92,15 +96,5 @@ public class InventoryPage extends BasePage {
 
     public int getProductCount() {
         return driver.findElements(inventoryItems).size();
-    }
-    
-    public void logout() {
-        clickElement(menuButton);
-        waitForElementToBeVisible(logoutLink);
-        clickElement(logoutLink);
-    }
-    
-    public boolean isMenuButtonVisible() {
-        return isElementVisible(menuButton);
     }
 }
