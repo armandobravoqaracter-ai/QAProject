@@ -1,0 +1,6 @@
+datasetName,usuario,password,expectedOutcome,nota
+OK_admin,standard_user,secret_sauce,SUCCESS,Caso feliz - credenciales válidas
+NEG_pwd,standard_user,wrong_pwd,ERROR,Password incorrecto
+NEG_user,no_user,secret_sauce,ERROR,Usuario inválido
+NEG_empty,,,ERROR,Campos vacíos - ambos campos sin datos
+NEG_locked,locked_out_user,secret_sauce,ERROR,Usuario bloqueado del sistema
