@@ -33,6 +33,20 @@ public class HeaderComponent extends BasePage {
         }
     }
     
+    /**
+     * E2: Espera explícita hasta que el badge del carrito muestre el count esperado.
+     * @param expectedCount número esperado en el badge
+     */
+    public void waitForCartCount(int expectedCount) {
+        try {
+            // Esperar a que el badge sea visible y tenga el texto correcto
+            waitForElementToBeVisible(shoppingCartBadge);
+            waitActions.waitTextContains(shoppingCartBadge, String.valueOf(expectedCount), 3);
+        } catch (Exception e) {
+            System.out.println(" Timeout esperando cart count: " + expectedCount);
+        }
+    }
+    
     public void goToCart() {
         clickElement(shoppingCartLink);
     }

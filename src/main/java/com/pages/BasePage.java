@@ -1,5 +1,6 @@
 package com.pages;
 
+import com.utils.WaitActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,10 +16,12 @@ import java.time.Duration;
 public abstract class BasePage {
     
     protected WebDriver driver;
+    protected WaitActions waitActions; // E2: Wrapper de waits
     protected static final int WAIT_TIMEOUT_SECONDS = 10;
     
     public BasePage(WebDriver driver) {
         this.driver = driver;
+        this.waitActions = new WaitActions(driver); // E2: Inicializar wrapper
     }
     
     public abstract boolean isLoaded();

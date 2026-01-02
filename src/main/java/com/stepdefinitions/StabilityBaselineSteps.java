@@ -120,7 +120,8 @@ public class StabilityBaselineSteps {
             
             String producto = "Sauce Labs Backpack";
             inventoryPage.addProductToCart(producto);
-            Thread.sleep(500); // Pequeña espera para asegurar que el contador se actualice
+            // E2: Reemplazar Thread.sleep con wait explícito del contador
+            inventoryPage.waitForCartCount(1); // Espera a que el contador se actualice
             System.out.println("  Paso 2: Producto agregado");
             
             int itemCount = inventoryPage.getCartItemCount();

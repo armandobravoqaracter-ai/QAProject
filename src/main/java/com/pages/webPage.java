@@ -1,5 +1,6 @@
 package com.pages;
 
+import com.utils.WaitActions;
 import lombok.Value;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -18,11 +19,13 @@ public class webPage {
     protected WebDriverWait wait;
     protected Actions actions;
     protected Select select;
+    protected WaitActions waitActions; // E2: Wrapper de waits
 
     public webPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
+        this.waitActions = new WaitActions(driver); // E2: Inicializar wrapper
         PageFactory.initElements(driver, this);
     }
 
@@ -219,12 +222,8 @@ public class webPage {
     }
     public void selectTextWebElement(By locator, String text) {
 
-        WebElement element = findElementSafely(locator);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        // E2: Reemplazar Thread.sleep con waitClickable
+        WebElement element = waitActions.waitClickable(locator);
         try {
             select(element).selectByVisibleText(text);
         } catch (Exception e) {
@@ -246,13 +245,11 @@ public class webPage {
 
         String valorSeleccionado = "";
 
-        // 1) Intentar obtener el value (inputs)
         String value = elemento.getAttribute("value");
         if (value != null && !value.trim().isEmpty()) {
             valorSeleccionado = value.trim();
         }
 
-        // 2) innerText (cuando el texto no es visible pero existe)
         else {
             String innerText = elemento.getAttribute("innerText");
             if (innerText != null && !innerText.trim().isEmpty()) {
@@ -260,13 +257,11 @@ public class webPage {
             }
             else {
 
-                // 3) textContent (texto interno crudo)
                 String textContent = elemento.getAttribute("textContent");
                 if (textContent != null && !textContent.trim().isEmpty()) {
                     valorSeleccionado = textContent.trim();
                 }
 
-                // 4) getText() (texto visible)
                 else {
                     String text = elemento.getText();
                     if (text != null) {
