@@ -20,13 +20,22 @@ public class InventoryPage extends BasePage {
     // Componente reutilizable del header
     private final HeaderComponent header;
     
-    // Localizadores dinámicos
+    /**
+     * E3: Convierte nombre de producto a slug para data-test selector.
+     */
+    private String productNameToSlug(String productName) {
+        return productName.toLowerCase().replace(" ", "-");
+    }
+    
+    // E3: Localizadores dinámicos refactorizados - CSS con data-test
     private By getAddToCartButton(String productName) {
-        return By.xpath("//div[text()='" + productName + "']/ancestor::div[@class='inventory_item']//button[contains(@id, 'add-to-cart')]");
+        String slug = productNameToSlug(productName);
+        return By.cssSelector("[data-test='add-to-cart-" + slug + "']");
     }
     
     private By getRemoveButton(String productName) {
-        return By.xpath("//div[text()='" + productName + "']/ancestor::div[@class='inventory_item']//button[contains(@id, 'remove')]");
+        String slug = productNameToSlug(productName);
+        return By.cssSelector("[data-test='remove-" + slug + "']");
     }
     
     public InventoryPage(WebDriver driver) {

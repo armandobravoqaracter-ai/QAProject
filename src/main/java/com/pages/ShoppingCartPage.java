@@ -59,10 +59,25 @@ public class ShoppingCartPage extends BasePage {
         return calculatedTotal == displayedTotal;
     }
 
+    /**
+     * E3: Convierte nombre de producto a slug.
+     */
+    private String productNameToSlug(String productName) {
+        return productName.toLowerCase().replace(" ", "-");
+    }
+    
+    /**
+     * E3: Validación de precio mejorada - usa clase CSS estable en lugar de text().
+     */
     public boolean isPriceCorrect(String productPrice) {
-        By productPriceLocator = By.xpath("//div[text()='" + productPrice +"']");
-        WebElement priceElement = driver.findElement(productPriceLocator);
-        return priceElement != null && !priceElement.getText().isEmpty();
+        // E3: Usar clase CSS específica en lugar de XPath con text()
+        By productPriceLocator = By.cssSelector(".cart_item .inventory_item_price");
+        try {
+            WebElement priceElement = waitForElementToBeVisible(productPriceLocator);
+            return priceElement.getText().contains(productPrice);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean areProductsListedOnCheckout() {
