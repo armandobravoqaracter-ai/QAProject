@@ -1,7 +1,9 @@
 package runners;
 
+import com.hooks.ReportGenerator;
 import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
@@ -15,5 +17,11 @@ public class TestRunner extends AbstractTestNGCucumberTests {
     @DataProvider()
     public Object[][] scenarios() {
         return super.scenarios();
+    }
+
+    @AfterSuite
+    public void afterSuite() {
+        System.out.println("TEST DE SUITE COMPLETADO");
+        ReportGenerator.generateCucumberReport();
     }
 }

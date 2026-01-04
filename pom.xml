@@ -125,6 +125,13 @@
             <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Cucumber HTML Reports -->
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.7.7</version>
+        </dependency>
     </dependencies>
 
     <build>
