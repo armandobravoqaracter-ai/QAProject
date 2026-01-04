@@ -1,5 +1,6 @@
 package com.pages;
 
+import com.utils.TestLogger;
 import com.utils.WaitActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -27,6 +28,7 @@ public abstract class BasePage {
     public abstract boolean isLoaded();
     
     protected void navigateTo(String url) {
+        TestLogger.logNavigation(url); // E4: Log navegación
         driver.get(url);
     }
     
@@ -41,17 +43,20 @@ public abstract class BasePage {
     }
 
     protected void typeText(By locator, String text) {
+        TestLogger.logType(locator.toString(), text); // E4: Log escritura
         WebElement element = waitForElementToBeVisible(locator);
         element.clear();
         element.sendKeys(text);
     }
     
     protected void clickElement(By locator) {
+        TestLogger.logClick(locator.toString()); // E4: Log click
         WebElement element = waitForElementToBeClickable(locator);
         element.click();
     }
     
     protected void clickElementWithJS(By locator) {
+        TestLogger.logClick(locator.toString() + " (JS)"); // E4: Log JS click
         WebElement element = waitForElementToBeClickable(locator);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);

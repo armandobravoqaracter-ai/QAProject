@@ -36,7 +36,7 @@ public class BaseTest {
         }
     }
 
-    @After
+    @After(order = 0)  // E4: Valor BAJO = se ejecuta al FINAL (después del listener)
     public void tearDown() {
         if (driver != null) {
             driver.quit();

@@ -5,6 +5,7 @@ import com.pages.InventoryPage;
 import com.pages.LoginPage;
 import com.pages.ShoppingCartPage;
 import com.utils.StabilityMetricsCollector;
+import com.utils.TestLogger;
 import io.cucumber.java.After;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
@@ -59,9 +60,11 @@ public class StabilityBaselineSteps {
         
         allRunResults.putIfAbsent(runNumber, new HashMap<>());
         
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        // E4: Log metadata al inicio de cada corrida
+        TestLogger.logTestMetadata("StabilityBaseline", "Corrida_" + runNumber);
+        
         System.out.println("Ejecucion #" + runNumber + " de 10");
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    
     }
 
     @Y("ejecuto el test granular de login con {string} y {string}")
