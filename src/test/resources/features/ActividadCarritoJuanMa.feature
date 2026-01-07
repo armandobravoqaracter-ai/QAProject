@@ -21,6 +21,7 @@ Característica: Validación de inicio de sesión
     * El usuario valida el texto en el campo <campoCarrito> sea igual a <TextoBusqueda2>
     * El usuario da click en el boton <btnCarrito>
     * El usuario valida que la pagina web actual sea <urlCarrito>
+    #* El usuario valida que la pagina web actual sea <urlCarrito>
 
     Ejemplos:
       | url                        | urlActual                  | campoUsuario | usuario       | time  | campoContrasena | contrasena   | btnLogin                | btnPrimerProducto                                                     | btnSegundoProducto                     | campoCarrito               | TextoBusqueda | btnCarrito                                    | btnSegundoRemove                  | urlCarrito                          | TextoBusqueda2 |
